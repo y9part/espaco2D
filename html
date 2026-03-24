@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Espaço 2D</title>
+<style>
+/* General styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    transition: background-color 0.5s, color 0.5s;
+}
+
+/* Header */
+header {
+    background-color: #2a2a2a;
+    padding: 15px 20px;
+    border-bottom: 1px solid #444;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+    font-size: 1.5rem;
+    color: #fff;
+}
+
+/* Nav wrapper for gradients */
+.nav-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Navigation menu */
+nav {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    padding: 5px 0;
+}
+
+nav::-webkit-scrollbar {
+    display: none;
+}
+nav {
+    scrollbar-width: none;
+}
+
+nav a {
+    flex: 0 0 auto;
+    white-space: nowrap;
+    padding: 8px 12px;
+    color: #61dafb;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: background 0.3s, color 0.3s;
+}
+
+nav a.active,
+nav a:hover {
+    color: #21a1f1;
+    background-color: #333;
+}
+
+/* Gradient indicators */
+.nav-gradient {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    pointer-events: none;
+    z-index: 10;
+    transition: opacity 0.2s;
+}
+
+.nav-gradient.left {
+    left: 0;
+    background: linear-gradient(to right, #1e1e1e, transparent);
+    opacity: 0;
+}
+
+.nav-gradient.right {
+    right: 0;
+    background: linear-gradient(to left, #1e1e1e, transparent);
+    opacity: 1;
+}
+
+/* Sections */
+section {
+    display: none;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    transition: transform 0.3s;
+}
+
+section.active {
+    display: block;
+}
+
+section:hover {
+    transform: scale(1.02);
+}
+
+/* Home cards */
+.home-card {
+    background-color: #3a3a3a;
+    padding: 20px;
+    margin: 15px 0;
+    border-radius: 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    transition: transform 0.3s;
+}
+
+.home-card:hover {
+    transform: scale(1.02);
+}
+
+/* +info blocks */
+.info-block {
+    background-color: #3a3a3a;
+    border-radius: 8px;
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+.info-title {
+    padding: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    user-select: none;
+}
+
+.info-content {
+    max-height: 0;
+    padding: 0 15px;
+    overflow: hidden;
+    transition: max-height 0.5s ease, padding 0.3s ease;
+}
+
+/* Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 15px 0;
+    background-color: #3a3a3a;
+    color: #e0e0e0;
+}
+
+th, td {
+    border: 1px solid #555;
+    padding: 8px 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #444;
+    font-weight: bold;
+}
+
+/* About titles */
+.about-title {
+    font-size: 1.2rem; 
+    font-weight: bold;
+    color: #fff;
+    margin-top: 12px;
+    display: block;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #2a2a2a;
+    border-top: 1px solid #444;
+    color: #aaa;
+}
+
+/* Responsive adjustments */
+@media(max-width: 768px) {
+    header h1 {
+        font-size: 1.3rem;
+    }
+    section, .home-card {
+        padding: 15px;
+        margin: 15px 10px;
+    }
+}
+
+@media(max-width: 480px) {
+    section, .home-card {
+        padding: 12px;
+        margin: 12px 8px;
+        font-size: 0.95rem;
+    }
+}
+</style>
+</head>
+<body>
+
+<header>
+    <h1>Espaço 2D</h1>
+    <div class="nav-wrapper">
+        <nav id="main-nav">
+            <a href="#" class="tab-link active" data-tab="home">Home</a>
+            <a href="#" class="tab-link" data-tab="co-work">Co-work</a>
+            <a href="#" class="tab-link" data-tab="private-offices">Private Offices</a>
+            <a href="#" class="tab-link" data-tab="meeting-room">Meeting Room</a>
+            <a href="#" class="tab-link" data-tab="about">About</a>
+            <a href="#" class="tab-link" data-tab="contacts">Contacts</a>
+        </nav>
+        <div class="nav-gradient left"></div>
+        <div class="nav-gradient right"></div>
+    </div>
+</header>
+
+<main>
+    <!-- Home Section -->
+    <section id="home" class="active">
+        <div class="home-card">
+            <h2>Welcome to Espaço 2D</h2>
+            <p>Work outside your home. We provide a proper co-working space where creativity thrives.</p>
+        </div>
+        <div class="home-card">
+            <p>Founded in 2009 by architects, designers, illustrators, programmers, and researchers, Espaço2D is all about sharing and collaboration.</p>
+        </div>
+        <div class="home-card">
+            <p>Bike-friendly environment. Shower, park your bike safely, and enjoy a productive day without excuses.</p>
+        </div>
+    </section>
+
+    <!-- Co-work Section -->
+    <section id="co-work">
+        <h2>Co-work</h2>
+        <table>
+            <tr>
+                <th>Model</th>
+                <th>Price</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Guest</td>
+                <td>50€ / Week</td>
+                <td>Hot desk, 24h access Mon-Sun, Full access to meeting room, Two slots of dedicated storage space. VAT/IVA (23%) Included.</td>
+            </tr>
+            <tr>
+                <td>Resident</td>
+                <td>100€ / Month*</td>
+                <td>Personal workspace, 24h access Mon-Sun, Full access to meeting room, Two slots of dedicated storage space. VAT/IVA (23%) Included. *Minimum 3 months.</td>
+            </tr>
+            <tr>
+                <td>Flash Resident</td>
+                <td>120€ / Month*</td>
+                <td>Personal workspace, 24h access Mon-Sun, Full access to meeting room, Two slots of dedicated storage space. VAT/IVA (23%) Included. *Minimum 1 month.</td>
+            </tr>
+            <tr>
+                <td>Flash Guest</td>
+                <td>25€ / Day</td>
+                <td>Hot desk, 24h access non available, 5€ per Hour of Meeting room access. VAT/IVA (23%) Included.</td>
+            </tr>
+        </table>
+        <div class="info-block">
+            <div class="info-title">INFORMATIONS</div>
+            <div class="info-content">
+                <p>All co work models include:</p>
+                <ul>
+                    <li>All meetings are subject to scheduling</li>
+                    <li>Residents will be provided with access to the cowork shared online calendar upon request</li>
+                    <li>No hour limit to meeting duration</li>
+                    <li>Meeting room access is subject to shared availability</li>
+                    <li>Kitchen and lounge access</li>
+                    <li>Two bathrooms</li>
+                    <li>Ethernet Cable/Wi-fi internet (gigabit)</li>
+                    <li>Shared printer</li>
+                    <li>Company address, calls and mail reception</li>
+                    <li>24h access</li>
+                    <li>Prices include all water supply, electricity, internet and cleaning expenses</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Private Offices Section -->
+    <section id="private-offices">
+        <h2>Private Offices</h2>
+        <table>
+            <tr>
+                <th>Room</th>
+                <th>Price</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Room 1</td>
+                <td>340€ / Month</td>
+                <td>Private workspace, 24h access Mon-Sun, Private room up to 4 seats, Full access to meeting room, Area: 12m², With exterior balcony. VAT/IVA (23%) Included.</td>
+            </tr>
+            <tr>
+                <td>Room 2</td>
+                <td>355€ / Month</td>
+                <td>Private workspace, 24h access Mon-Sun, Private room up to 5 seats, Full access to meeting room, Area: 14m². VAT/IVA (23%) Included.</td>
+            </tr>
+            <tr>
+                <td>Room 3</td>
+                <td>365€ / Month</td>
+                <td>Private workspace, 24h access Mon-Sun, Private room up to 5 seats, Full access to meeting room, Area: 15m², With exterior balcony. VAT/IVA (23%) Included.</td>
+            </tr>
+        </table>
+        <div class="info-block">
+            <div class="info-title">INFORMATIONS</div>
+            <div class="info-content">
+                <ul>
+                    <li>All meetings are subject to scheduling</li>
+                    <li>Residents will be provided with access to the cowork shared online calendar upon request</li>
+                    <li>No hour limit to meeting duration</li>
+                    <li>Meeting room access is subject to shared availability</li>
+                    <li>Kitchen and lounge access</li>
+                    <li>Two bathrooms</li>
+                    <li>Ethernet Cable/Wi-fi internet (gigabit)</li>
+                    <li>Shared printer</li>
+                    <li>Company address, calls and mail reception</li>
+                    <li>24h access</li>
+                    <li>Prices include all water supply, electricity, internet and cleaning expenses</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Meeting Room Section -->
+    <section id="meeting-room">
+        <h2>Meeting Room</h2>
+        <table>
+            <tr>
+                <th>Meeting room</th>
+                <th>Price</th>
+                <th>Details</th>
+            </tr>
+            <tr>
+                <td>Meeting room</td>
+                <td>15€ / Hour</td>
+                <td>Meeting room with up to 5 seats, VAT/IVA (23%) Included.</td>
+            </tr>
+        </table>
+        <div class="info-block">
+            <div class="info-title">INFORMATIONS</div>
+            <div class="info-content">
+                <ul>
+                    <li>All meetings are subject to scheduling</li>
+                    <li>No hour limit to meeting duration</li>
+                    <li>Meeting room access is subject to shared availability</li>
+                    <li>Bathroom Access</li>
+                    <li>Wi-fi internet (gigabit)</li>
+                    <li>Prices include all water supply, electricity, internet and cleaning expenses</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about">
+        <h2>About</h2>
+        <div class="info-block">
+            <div class="info-title">Information</div>
+            <div class="info-content">
+                <p><span class="about-title">The location</span>
+                We are located in Praça Mouzinho da Silveira (Rotunda da Boavista), one of the city’s most prominent business centers. Vibrant commercial surroundings are combined with the great accessibility, just 2 minutes from Casa da Música metro station.</p>
+
+                <p><span class="about-title">The house</span>
+                Embodying Porto’s school great design tradition, our recently refurbished house is full of character and beautiful modernist details. Expect delicate, light spaces accentuated by period materials, such as hydraulic tiles and intricate carpentry details over beautiful 140 sqm.</p>
+
+                <p><span class="about-title">The work area</span>
+                Our main 10-station cowork room is complemented by 3 additional work rooms and a cosy meeting room.</p>
+
+                <p><span class="about-title">The lounge area</span>
+                Our coffee break and food lounge also includes a wonderful, fully equipped retro kitchen which doubles as the greatest informal meeting room.</p>
+
+                <p><span class="about-title">The history</span>
+                Our beloved office is a fine jewel of Porto modernism architecture school. This 1957 architecture project by Agostinho Ricca and Benjamin do Carmo shows a refined understanding of the typical 1950-1970 domestic space organization, with a clear hierarchy and fluid articulation. Ricca (1915-2010) “added to the modernism lesson a more organic view of solidity, quality and comfort” and this is the experience we strive for.</p>
+
+                <p><span class="about-title">And... we are bike friendly</span>
+                We cherish bikes at Espaço2D. Besides working with potential bike buddies, you'll probably get useful advice. Don't let your beloved bike in the streetwalk, bring it to work. Don't drive to work, workout to work. You can shower so you can get fresh for your productive day. No excuses any more.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="contacts">
+        <h2>Contacts</h2>
+        <div class="info-block">
+            <div class="info-title">Information</div>
+            <div class="info-content">
+                <ul>
+                    <li>Address: Rua Júlio Dinis, 947 3E 4050-327 Porto</li>
+                    <li>Cell phone: 914 183 631 / 917 156 820</li>
+                    <li>Email: espaco2d.cowork@gmail.com</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    © 2026 Espaço 2D. All rights reserved.
+</footer>
+
+<script>
+// Tab switching
+document.querySelectorAll('.tab-link').forEach(link => {
+    link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = link.dataset.tab;
+        document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+        document.getElementById(target).classList.add('active');
+        document.querySelectorAll('.tab-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+    });
+});
+
+// Toggle +info blocks
+document.querySelectorAll('.info-title').forEach(title => {
+    title.addEventListener('click', () => {
+        const content = title.nextElementSibling;
+        if (content.style.maxHeight) {
+            content.style.maxHeight = null;
+            content.style.padding = '0 15px';
+        } else {
+            content.style.maxHeight = content.scrollHeight + "px";
+            content.style.padding = '15px';
+        }
+    });
+});
+
+// Animated gradient shadows
+const nav = document.getElementById('main-nav');
+const leftGrad = document.querySelector('.nav-gradient.left');
+const rightGrad = document.querySelector('.nav-gradient.right');
+
+function updateNavGradients() {
+    const scrollLeft = nav.scrollLeft;
+    const maxScroll = nav.scrollWidth - nav.clientWidth;
+    leftGrad.style.opacity = scrollLeft > 5 ? 1 : 0;
+    rightGrad.style.opacity = scrollLeft < maxScroll - 5 ? 1 : 0;
+}
+
+nav.addEventListener('scroll', updateNavGradients);
+window.addEventListener('resize', updateNavGradients);
+updateNavGradients();
+</script>
+
+</body>
+</html>
